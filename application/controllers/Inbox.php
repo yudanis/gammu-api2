@@ -20,7 +20,7 @@ require APPPATH . 'libraries/Format.php';
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-class SentItems extends CI_Controller {
+class Inbox extends CI_Controller {
 
     use REST_Controller {
         REST_Controller::__construct as private __resTraitConstruct;
@@ -42,13 +42,14 @@ class SentItems extends CI_Controller {
     public function index_get(){
         
         $this->load->database();
-        $this->load->model('M_SentItems');
-        $condition = array();
-        $userid = $this->get('userid');
-        if($userid != null)
-            $condition['CreatorID'] = $userid;
+        $this->load->model('M_Inbox');
+        $modem_codes = array();
+        
+        foreach($this->input->get("modem_codes") as $modemcode){
+            array_push($modem_codes, $modemcode);
+        }
 
-        $result = $this->M_SentItems->GetAll($condition, 100, 0);
+        $result = $this->M_Inbox->GetAll($modem_codes, 100, 0);
         $this->response($result, 200); // OK (200) being the HTTP response code
         
     }
