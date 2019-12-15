@@ -44,9 +44,11 @@ class Inbox extends CI_Controller {
         $this->load->database();
         $this->load->model('M_Inbox');
         $modem_codes = array();
-        
-        foreach($this->input->get("modem_codes") as $modemcode){
-            array_push($modem_codes, $modemcode);
+        $data = $this->input->get("modem_codes");
+        if($data != null){
+            foreach($this->input->get("modem_codes") as $modemcode){
+                array_push($modem_codes, $modemcode);
+            }
         }
 
         $result = $this->M_Inbox->GetAll($modem_codes, 100, 0);
